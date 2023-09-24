@@ -15,13 +15,9 @@ func main() {
 	// var bookings = []string{}
 	// bookings := []string{}
 
-	// fmt.Println("Welcome to", conferenceName, "booking application")
 	fmt.Printf("Welcome to %v booking application\n", conferenceName)
 	fmt.Println("We have total of", conferenceTickets, "tickets and", remainingTickets, "are still available")
 	fmt.Println("Get your ticket here to attend")
-
-	// var bookings = [50]string{"Nina", "Nicole", "Peter"}
-	// var bookings [50]string
 
 	var firstName string
 	var lastName string
@@ -44,18 +40,17 @@ func main() {
 		fmt.Println("Enter number of tickets")
 		fmt.Scan(&userTickets)
 
-		fmt.Printf("User %v booked %v tickets.\n", firstName, userTickets)
+		isValidName := len(firstName) >= 2 && len(lastName) >= 2
+		isValidEmail := strings.Contains(email, "@")
+		isValidTicketNumber := userTickets > 0 && userTickets <= remainingTickets
 
-		if userTickets <= remainingTickets {
+		// fmt.Printf("User %v booked %v tickets.\n", firstName, userTickets)
+
+		if isValidName && isValidEmail && isValidTicketNumber {
 			remainingTickets = remainingTickets - userTickets
 
 			// bookings[0] = firstName + " " + lastName
 			bookings = append(bookings, firstName+" "+lastName)
-
-			fmt.Printf("THe whole slice: %v\n", bookings)
-			fmt.Printf("The first value: %v\n", bookings[0])
-			fmt.Printf("slice type: %T\n", bookings)
-			fmt.Printf("slice length: %v\n", len(bookings))
 
 			fmt.Printf("Thank you %v %v for booking %v tickets. You will receive a confirmation email at %v\n", firstName, lastName, userTickets, email)
 			fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
@@ -74,9 +69,16 @@ func main() {
 				break
 			}
 		} else {
-			fmt.Printf("We only have %v tickets remaining, so you can't book %v tickets\n", remainingTickets, userTickets)
+			if !isValidName {
+				fmt.Println("first name or last name you entered is too short")
+			}
+			if !isValidEmail {
+				fmt.Println("email address you entered doesn't contain @ sign")
+			}
+			if !isValidTicketNumber {
+				fmt.Println("number of tickets you entered is invalid")
+			}
 		}
-
 	}
 
 }
